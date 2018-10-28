@@ -16,4 +16,4 @@ To use the script, type "whichcolor" in your terminal followed by decimal or hex
 ## Authors
 Daniil Rumiantsev [daniil@codebagel.com]
 ## More
-Visit the www.codegabel.com/scripts/whichcolor/ for more information
+Visit the www.codebagel.com/scripts/whichcolor/ for more information
