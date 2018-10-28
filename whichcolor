@@ -1,0 +1,104 @@
+#/bin/bash
+
+################################################################################
+# File:             whichcolor.sh
+# Description:      The script shows how the color looks like by it's RGB code.
+# Developed by:     Daniil Rumyantsev
+# Website:          www.codebagel.com/scripts/whichcolor/
+# Release date:     October 28, 2018
+# Usage examples:   whichcolor 240 23 109
+#                   whichcolor fea67c
+#                   whichcolor 45D8EE
+#                   whichcolor 57E
+#                   whichcolor fff
+# Language:         Bash
+# Operating system: Unix
+################################################################################
+
+# Initially we don't have any errors
+error=0
+
+# First, check parameters for three decimal numbers from 0 to 999.
+# Here we obviosly need to check for range from 0 to 255, but the regular
+# expression would be too comlicated, so we split the chcek into two steps
+num='^[0-9]{1,3}$'
+
+if [[ ( $1 =~ $num ) && ( $2 =~ $num ) && ( $3 =~ $num ) ]]; then
+
+    # Now we can check if each parameter is no more than 255
+	if [[ ( $1 -le 255 ) && ( $2 -le 255 ) && ( $3 -le 255 ) ]]; then
+	
+	r=$1
+	g=$2
+	b=$3
+
+	else
+	
+        # If any number is greater than 255, it is an incorrect color code
+        error=1
+	
+	fi
+
+# If we did not get three separate numbers, then try to parse the first
+# parameter as a short hexadecimal color code
+elif [[ $1 =~ ^[0-9a-fA-F]{3}$ ]]; then
+
+    # Parse every char (1st - R, 2nd - G, 3rd - B) to a decimal number:
+    # 1. Double the character to get the corresponding hexadecimal number
+    # 2. Add prefix 0x and use $((expression)) to convert it to a decimal
+
+	r=$((0x${1:0:1}${1:0:1}))
+	g=$((0x${1:1:1}${1:1:1}))
+	b=$((0x${1:2:1}${1:2:1}))
+
+# If we did not get short hexadecimal color code, try to parse the first
+# parameter as a full hexadecimal triplet
+elif [[ $1 =~ ^[0-9a-fA-F]{6}$ ]]; then
+
+    # Make the conversion to a decimal, like above, but without doubling
+
+	r=$((0x${1:0:2}))
+	g=$((0x${1:2:2}))
+	b=$((0x${1:4:2}))
+    
+else
+
+    # If the parametres set is not three numbers from 0 to 255, short or
+    # long hexadecimal color code, it is incorrect value of color
+    error=1
+
+fi
+
+# If we got a valid parametres set, now we have variables $r, $g and $b
+# initialised with decimal numbers from 0 to 255, so we can print the
+# entire information about the color
+
+if [ $error -eq 0 ]; then
+    
+    # Formatted printing of information about color
+    
+    printf "Background:%7s\e[48;2;%d;%d;%dm%21s\e[0m\n" " " $r $g $b
+    printf "Foreground black: "
+    printf "\e[40m\e[38;2;%d;%d;%dmThe text will look so\e[0m\n" $r $g $b
+    printf "Foreground white: "
+    printf "\e[47m\e[38;2;%d;%d;%dmThe text will look so\e[0m\n" $r $g $b
+    printf "RGB decimal:%6srgb(%d, %d, %d)\n" " " $r $g $b
+    printf "Hex triplet:%6s#%.2X%.2X%.2X\n" " " $r $g $b
+
+# If the parametres set is wrong, display brief usage manual with examples  
+
+else
+    
+    printf "\e[0;31mYou have passed an incorrect value of a color\e[0m\n"
+    echo "You should pass R, G and B components, for instance:"
+    printf "\e[0;33mwhichcolor 23 244 170\e[0m\n"
+    echo "Or you can pass color's hex code, like the following:"
+    printf "\e[0;33mwhichcolor fe44e7\e[0m\n"
+    echo "You are also able to use the short hex form:"
+    printf "\e[0;33mwhichcolor 5ea\e[0m\n"
+    echo "In the hex form you may use both uppercase and lowercase"
+    echo "You have to omit a hash sign in the beginning when use hex code"
+    
+fi
+
+
