@@ -9,7 +9,7 @@ To run the script in terminal as a command, do the following:
 
 Or you can put the script to a common directory like /usr/local/bin and it will allow you to run the script without changing $PATH variable.
 ## Usage
-To use the script type "whichcolor" in your terminal followed by decimal or hexadecimal (without hash sign) code of color as shown in examples below:
+To use the script, type "whichcolor" in your terminal followed by decimal or hexadecimal (without hash sign) code of color as shown in examples below:
 1. whichcolor 233 100 123
 2. whichcolor EA5623
 3. whichcolor f43
