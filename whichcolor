@@ -3,7 +3,7 @@
 ################################################################################
 # File:             whichcolor.sh
 # Description:      The script shows how the color looks like by it's RGB code.
-# Developed by:     Daniil Rumyantsev
+# Developed by:     Daniil Rumiantsev [daniil@codebagel.com]
 # Website:          www.codebagel.com/scripts/whichcolor/
 # Release date:     October 28, 2018
 # Usage examples:   whichcolor 240 23 109
